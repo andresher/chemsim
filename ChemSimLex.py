@@ -28,13 +28,13 @@ tokens = [
 # Regular expression rules for simple token
 t_UNKNOWN = r'\?'
 
-# Define number as int
+# Define number as float
 def t_NUMBER(t):
-    r'\d+'
+    r'(\d+(\.\d*)?|\.\d+)'
     try:
-        t.value = int(t.value)
+        t.value = float(t.value)
     except ValueError:
-        print("Integer value too large %d", t.value)
+        print("Not a valid float %d", t.value)
         t.value = 0
     return t
 
