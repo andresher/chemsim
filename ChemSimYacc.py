@@ -47,6 +47,10 @@ def p_create_flux(p):
         p[0].add_compound({'name': name, '%': percent})
     fluxes.append(p[0])
 
+    print("Flux created successfully! [Name: %s, Speed: %s, Compounds:" % (p[0].name, p[0].speed), end="")
+    for compound in p[0].compounds:
+        print(" %s(%d%%)" % (compound['name'], compound['%']), end="")
+    print("]")
 
 def p_create_machine(p):
     'create_machine : CREATE MACHINE ID INPUT fluxes_list OUTPUT fluxes_list'
@@ -59,6 +63,14 @@ def p_create_machine(p):
         p[0].add_flux_out(f)
     machines.append(p[0])
 
+    print("Machine created successfully! [Name: %s, Input Fluxes:" % p[0].name, end="")
+    for flux in p[0].fluxes_in:
+        print(" %s" % flux.name, end="")
+    print(", Output Fluxes:", end="")
+    for flux in p[0].fluxes_out:
+        print(" %s" % flux.name, end="")
+    print("]")
+
 
 def p_create_system(p):
     'create_system : CREATE SYSTEM ID machines_list'
@@ -67,6 +79,11 @@ def p_create_system(p):
         m = search_machine(machine)
         p[0].add_machine(m)
     systems.append(p[0])
+
+    print("System created successfully! [Name: %s, Machines:" % p[0].name, end="")
+    for machine in p[0].machines:
+        print(" %s" % machine.name, end="")
+    print("]")
 
 
 def p_compounds_list(p):
@@ -109,29 +126,38 @@ def p_run(p):
     system = search_system(p[2])
     system.solve()
 
+    print("System solved successfully!")
+
 
 def p_save(p):
     'save : SAVE ID'
     system = search_system(p[2])
     # TODO Save all the info of 'system'(above) into a CSV file.
+    # print("System saved successfully!")
 
 def p_test(p):
     'test : TEST'
+
     for flux in fluxes:
-        print("\nFlux Name:", flux.name)
-        print("Speed:", flux.speed)
+        print("Flux Name: %s, Speed: %s, Compounds:" % (flux.name, flux.speed), end="")
         for compound in flux.compounds:
-            print("Compound:", compound['name'], "-", compound['%'])
+            print(" %s(%d%%)" % (compound['name'], compound['%']), end="")
+        print("")
+
     for machine in machines:
-        print("\nMachine Name:", machine.name)
+        print("Machine Name: %s, Input Fluxes:" % machine.name, end="")
         for flux in machine.fluxes_in:
-            print("Input Flux:", flux.name)
+            print(" %s" % flux.name, end="")
+        print(", Output Fluxes:", end="")
         for flux in machine.fluxes_out:
-            print("Output Flux:", flux.name)
+            print(" %s" % flux.name, end="")
+        print("")
+
     for system in systems:
-        print("\nSystem Name:", system.name)
+        print("System Name: %s, Machines:" % system.name, end="")
         for machine in system.machines:
-            print("Machine Name:", machine.name)
+            print(" %s" % machine.name, end="")
+        print("")
 
 # Error rule for syntax errors
 def p_error(p):
