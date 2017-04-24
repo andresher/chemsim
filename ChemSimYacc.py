@@ -37,33 +37,33 @@ def p_statement(p):
 
 
 def p_create_flux(p):
-    '''create_flux : CREATE FLUX NAME ID SPEED NUMBER COMPOUNDS compounds_list
-                    | CREATE FLUX NAME ID SPEED UNKNOWN COMPOUNDS compounds_list'''
-    if isinstance(p[6], float):
-        p[0] = cst.Flux(p[4], p[6])
+    '''create_flux : CREATE FLUX ID NUMBER compounds_list
+                    | CREATE FLUX ID UNKNOWN compounds_list'''
+    if isinstance(p[4], float):
+        p[0] = cst.Flux(p[3], p[4])
     else:
-        p[0] = cst.Flux(p[4], None)
-    for name, percent in zip(*[iter(p[8])] * 2):
+        p[0] = cst.Flux(p[3], None)
+    for name, percent in zip(*[iter(p[5])] * 2):
         p[0].add_compound({'name': name, '%': percent})
     fluxes.append(p[0])
 
 
 def p_create_machine(p):
-    'create_machine : CREATE MACHINE NAME ID INPUT fluxes_list OUTPUT fluxes_list'
-    p[0] = cst.Machine(p[4])
-    for flux in p[6]:
+    'create_machine : CREATE MACHINE ID INPUT fluxes_list OUTPUT fluxes_list'
+    p[0] = cst.Machine(p[3])
+    for flux in p[5]:
         f = search_flux(flux)
         p[0].add_flux_in(f)
-    for flux in p[8]:
+    for flux in p[7]:
         f = search_flux(flux)
         p[0].add_flux_out(f)
     machines.append(p[0])
 
 
 def p_create_system(p):
-    'create_system : CREATE SYSTEM NAME ID MACHINES machines_list'
-    p[0] = cst.System(p[4])
-    for machine in p[6]:
+    'create_system : CREATE SYSTEM ID machines_list'
+    p[0] = cst.System(p[3])
+    for machine in p[4]:
         m = search_machine(machine)
         p[0].add_machine(m)
     systems.append(p[0])
@@ -112,25 +112,26 @@ def p_run(p):
 
 def p_save(p):
     'save : SAVE ID'
-    # TODO
+    system = search_system(p[2])
+    # TODO Save all the info of 'system'(above) into a CSV file.
 
 def p_test(p):
     'test : TEST'
     for flux in fluxes:
-        print("\nFlux Name: ", flux.name)
-        print("Speed: ", flux.speed)
+        print("\nFlux Name:", flux.name)
+        print("Speed:", flux.speed)
         for compound in flux.compounds:
-            print("Compound: ", compound['name'], "-", compound['%'])
+            print("Compound:", compound['name'], "-", compound['%'])
     for machine in machines:
-        print("\nMachine Name: ", machine.name)
+        print("\nMachine Name:", machine.name)
         for flux in machine.fluxes_in:
-            print("Input Flux: ", flux.name)
+            print("Input Flux:", flux.name)
         for flux in machine.fluxes_out:
-            print("Output Flux: ", flux.name)
+            print("Output Flux:", flux.name)
     for system in systems:
-        print("\nSystem Name: ", system.name)
+        print("\nSystem Name:", system.name)
         for machine in system.machines:
-            print("Machine Name: ", machine.name)
+            print("Machine Name:", machine.name)
 
 # Error rule for syntax errors
 def p_error(p):
