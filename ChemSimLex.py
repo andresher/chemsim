@@ -2,20 +2,19 @@ import ply.lex as lex
 
 # Reserved words
 reserved = {
-    'create' : 'CREATE',
-    'system' : 'SYSTEM',
-    'flux' : 'FLUX',
-    'machine' : 'MACHINE',
-    'save' : 'SAVE',
-    'run' : 'RUN',
-    'name' : 'NAME',
-    'fluxes' : 'FLUXES',
-    'machines' : 'MACHINES',
-    'member' : 'MEMBER',
-    'input' : 'INPUT',
-    'output' : 'OUTPUT',
-    'speed' : 'SPEED',
-    'compound' : 'COMPOUND',
+    'create': 'CREATE',
+    'system': 'SYSTEM',
+    'flux': 'FLUX',
+    'machine': 'MACHINE',
+    'save': 'SAVE',
+    'run': 'RUN',
+    'name': 'NAME',
+    'fluxes': 'FLUXES',
+    'machines': 'MACHINES',
+    'input': 'INPUT',
+    'output': 'OUTPUT',
+    'speed': 'SPEED',
+    'compounds': 'COMPOUNDS',
 }
 
 # List of token names. This is always required
