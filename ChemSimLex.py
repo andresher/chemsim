@@ -14,6 +14,7 @@ reserved = {
     'output': 'OUTPUT',
     'speed': 'SPEED',
     'compounds': 'COMPOUNDS',
+    'test': 'TEST',
 }
 
 # List of token names. This is always required
