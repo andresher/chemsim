@@ -1,26 +1,7 @@
-create flux
-	name StartFlux
-	speed 23
-	compounds H2O 70 NaCl 30
-
-create flux
-	name Flux1
-	speed 13
-	compounds H2O 70 NaCl 30
-
-create flux
-	name Flux2
-	speed ?
-	compounds H2O 70 NaCl 30
-
-create machine
-	name Machine1
-	input StartFlux
-	output Flux1 Flux2
-
-create system
-	name System1
-	machines Machine1
-
+create flux StartFlux 23 H2O 70 NaCl 30
+create flux Flux1 13 H2O 70 NaCl 30
+create flux Flux2 ? H2O 70 NaCl 30
+create machine Machine1	input StartFlux	output Flux1 Flux2
+create system System1 Machine1
 run System1
 save System1
