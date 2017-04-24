@@ -3,17 +3,13 @@ import ply.lex as lex
 # Reserved words
 reserved = {
     'create': 'CREATE',
-    'system': 'SYSTEM',
     'flux': 'FLUX',
     'machine': 'MACHINE',
-    'save': 'SAVE',
-    'run': 'RUN',
-    'name': 'NAME',
-    'machines': 'MACHINES',
+    'system': 'SYSTEM',
     'input': 'INPUT',
     'output': 'OUTPUT',
-    'speed': 'SPEED',
-    'compounds': 'COMPOUNDS',
+    'run': 'RUN',
+    'save': 'SAVE',
     'test': 'TEST',
 }
 
