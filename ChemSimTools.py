@@ -4,6 +4,9 @@ class Flux:
         self.speed = speed
         self.compounds = []
 
+    def get_name(self):
+        return self.name
+
     def add_compound(self, compound):
         self.compounds.append(compound)
 
@@ -19,6 +22,9 @@ class Machine:
         self.fluxes_out = []
         self.all_fluxes = []
 
+    def get_name(self):
+        return self.name
+
     def add_flux_in(self, flux):
         self.fluxes_in.append(flux)
         self.all_fluxes.append(flux)
@@ -28,12 +34,14 @@ class Machine:
         self.all_fluxes.append(flux)
 
 
-
 class System:
 
     def __init__(self, name):
         self.name = name
         self.machines = []
+
+    def get_name(self):
+        return self.name
 
     def add_machine(self, machine):
         self.machines.append(machine)
