@@ -9,7 +9,6 @@ reserved = {
     'save': 'SAVE',
     'run': 'RUN',
     'name': 'NAME',
-    'fluxes': 'FLUXES',
     'machines': 'MACHINES',
     'input': 'INPUT',
     'output': 'OUTPUT',
