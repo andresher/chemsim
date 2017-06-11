@@ -47,59 +47,68 @@ def p_statement(p):
 def p_create_flux(p):
     '''create_flux : CREATE FLUX ID NUMBER compounds_list
                     | CREATE FLUX ID UNKNOWN compounds_list'''
-    if name_in_use(p[3]):
-        print("Unable to create flux, name already in use.")
-        return
-    if isinstance(p[4], float):
-        p[0] = cst.Flux(p[3], p[4])
-    else:
-        p[0] = cst.Flux(p[3], None)
-    for name, percent in zip(*[iter(p[5])] * 2):
-        p[0].add_compound({'name': name, '%': percent})
-    fluxes.append(p[0])
+    try:
+        if name_in_use(p[3]):
+            print("Unable to create flux, name already in use.")
+            return
+        if isinstance(p[4], float):
+            p[0] = cst.Flux(p[3], p[4])
+        else:
+            p[0] = cst.Flux(p[3], None)
+        for name, percent in zip(*[iter(p[5])] * 2):
+            p[0].add_compound({'name': name, '%': percent})
+        fluxes.append(p[0])
 
-    print("Flux created successfully! [Name: %s, Speed: %s, Compounds:" % (p[0].name, p[0].speed), end="")
-    for compound in p[0].compounds:
-        print(" %s(%d%%)" % (compound['name'], compound['%']), end="")
-    print("]")
+        print("Flux created successfully! [Name: %s, Speed: %s, Compounds:" % (p[0].name, p[0].speed), end="")
+        for compound in p[0].compounds:
+            print(" %s(%d%%)" % (compound['name'], compound['%']), end="")
+        print("]")
+    except:
+        print("Error in definition, cannot create flux.")
 
 def p_create_machine(p):
     'create_machine : CREATE MACHINE ID INPUT fluxes_list OUTPUT fluxes_list'
-    if name_in_use(p[3]):
-        print("Unable to create machine, name already in use.")
-        return
-    p[0] = cst.Machine(p[3])
-    for flux in p[5]:
-        f = search_flux(flux)
-        p[0].add_flux_in(f)
-    for flux in p[7]:
-        f = search_flux(flux)
-        p[0].add_flux_out(f)
-    machines.append(p[0])
+    try:
+        if name_in_use(p[3]):
+            print("Unable to create machine, name already in use.")
+            return
+        p[0] = cst.Machine(p[3])
+        for flux in p[5]:
+            f = search_flux(flux)
+            p[0].add_flux_in(f)
+        for flux in p[7]:
+            f = search_flux(flux)
+            p[0].add_flux_out(f)
+        machines.append(p[0])
 
-    print("Machine created successfully! [Name: %s, Input Fluxes:" % p[0].name, end="")
-    for flux in p[0].fluxes_in:
-        print(" %s" % flux.name, end="")
-    print(", Output Fluxes:", end="")
-    for flux in p[0].fluxes_out:
-        print(" %s" % flux.name, end="")
-    print("]")
+        print("Machine created successfully! [Name: %s, Input Fluxes:" % p[0].name, end="")
+        for flux in p[0].fluxes_in:
+            print(" %s" % flux.name, end="")
+        print(", Output Fluxes:", end="")
+        for flux in p[0].fluxes_out:
+            print(" %s" % flux.name, end="")
+        print("]")
+    except:
+        print("Error in definition, cannot create machine.")
 
 def p_create_system(p):
     'create_system : CREATE SYSTEM ID machines_list'
-    if name_in_use(p[3]):
-        print("Unable to create system, name already in use.")
-        return
-    p[0] = cst.System(p[3])
-    for machine in p[4]:
-        m = search_machine(machine)
-        p[0].add_machine(m)
-    systems.append(p[0])
+    try:
+        if name_in_use(p[3]):
+            print("Unable to create system, name already in use.")
+            return
+        p[0] = cst.System(p[3])
+        for machine in p[4]:
+            m = search_machine(machine)
+            p[0].add_machine(m)
+        systems.append(p[0])
 
-    print("System created successfully! [Name: %s, Machines:" % p[0].name, end="")
-    for machine in p[0].machines:
-        print(" %s" % machine.name, end="")
-    print("]")
+        print("System created successfully! [Name: %s, Machines:" % p[0].name, end="")
+        for machine in p[0].machines:
+            print(" %s" % machine.name, end="")
+        print("]")
+    except:
+        print("Error in definition, cannot create system.")
 
 def p_compounds_list(p):
     '''compounds_list : ID NUMBER
