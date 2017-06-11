@@ -1,10 +1,12 @@
 import ply.yacc as yacc
 import ChemSimTools as cst
+import csv
 from ChemSimLex import tokens
 
 fluxes = []
 machines = []
 systems = []
+
 
 
 def search_flux(name):
@@ -124,16 +126,37 @@ def p_machines_list(p):
 def p_run(p):
     'run : RUN ID'
     system = search_system(p[2])
-    system.solve()
+    isSolved = system.solve()
 
-    print("System solved successfully!")
-
+    if isSolved:
+        print("System solved successfully!")
+    else:
+        print("System cannot be solved.")
 
 def p_save(p):
     'save : SAVE ID'
     system = search_system(p[2])
-    # TODO Save all the info of 'system'(above) into a CSV file.
-    # print("System saved successfully!")
+    isSolved = system.solve()
+
+    if isSolved:
+
+        file_name = system.name
+        with open(file_name+'.csv', 'w', newline='') as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=',',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            spamwriter.writerow(['Machine Name', 'Flux Name', 'Speed', 'Compounds'])
+            for machine in system.machines:
+
+                for flux in machine.all_fluxes:
+                    row=[machine.name, flux.name, flux.speed]
+                    for compound in flux.compounds:
+                        row.append(str(compound['name']) + "(" + str(compound['%'])+"%)")
+                    spamwriter.writerow(row)
+                    #print(row)
+                print("System saved successfully as" + file_name + ".csv!")
+    else:
+        print("System cannot be solved and will not be saved.")
+
 
 def p_test(p):
     'test : TEST'
