@@ -1,4 +1,4 @@
 Machine Name,Flux Name,Speed,Compounds
-Machine1,StartFlux,23.0,H2O(70.0%),NaCl(30.0%)
-Machine1,Flux1,13.0,H2O(70.0%),NaCl(30.0%)
-Machine1,Flux2,10.0,H2O(70.0%),NaCl(30.0%)
+Machine1,StartFlux,23.0,H2O(70.0%) NaCl(30.0%) 
+Machine1,Flux1,13.0,H2O(70.0%) NaCl(30.0%) 
+Machine1,Flux2,10.0,H2O(70.0%) NaCl(30.0%) 

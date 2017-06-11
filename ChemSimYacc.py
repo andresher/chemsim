@@ -149,11 +149,13 @@ def p_save(p):
 
                 for flux in machine.all_fluxes:
                     row=[machine.name, flux.name, flux.speed]
+                    compounds = ""
                     for compound in flux.compounds:
-                        row.append(str(compound['name']) + "(" + str(compound['%'])+"%)")
+                        compounds += str(compound['name']) + "(" + str(compound['%'])+"%) "
+                    row.append(compounds)
                     spamwriter.writerow(row)
-                    #print(row)
-                print("System saved successfully as" + file_name + ".csv!")
+
+                print("System saved successfully as " + file_name + ".csv!")
     else:
         print("System cannot be solved and will not be saved.")
 
