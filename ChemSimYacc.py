@@ -55,8 +55,13 @@ def p_create_flux(p):
             p[0] = cst.Flux(p[3], p[4])
         else:
             p[0] = cst.Flux(p[3], None)
+        percentage = 0.0
         for name, percent in zip(*[iter(p[5])] * 2):
             p[0].add_compound({'name': name, '%': percent})
+            percentage += percent
+        if percentage != 100:
+            print("Unable to create flux, percentages do not add up to 100%.")
+            return
         fluxes.append(p[0])
 
         print("Flux created successfully! [Name: %s, Speed: %s, Compounds:" % (p[0].name, p[0].speed), end="")
@@ -80,7 +85,7 @@ def p_create_machine(p):
             f = search_flux(flux)
             p[0].add_flux_out(f)
         machines.append(p[0])
-
+        p[0].fluxes_in[0].name # Trigger an exception before print, if necessary
         print("Machine created successfully! [Name: %s, Input Fluxes:" % p[0].name, end="")
         for flux in p[0].fluxes_in:
             print(" %s" % flux.name, end="")
