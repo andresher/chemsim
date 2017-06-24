@@ -31,7 +31,9 @@ save System1
 2. Download ChemSim
 3. Write your .csim file with the above commands
 4. Run: python3 ChemSim.py MyProgram.csim
-##### or
+
+or
+
 1. Download Python 3
 2. Download ChemSim
 3. Run: python3 ChemSim.py
