@@ -10,7 +10,7 @@ Simulate a system by defining its fluxes and machines. Unknowns will be calculat
 ```
 create flux <name> <speed> <compund_and_percentage_list>
 create machine <name> input <flux_list> output <flux_list>
-create system <machine_list>
+create system <name> <machine_list>
 run
 save
 ```
